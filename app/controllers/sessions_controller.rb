@@ -1,10 +1,8 @@
 class SessionsController < ApplicationController
   def create
     result = Sessions::CreateService.new(*session_params).call
-    byebug
     if result.success?
-      # token = JwtEncoder.encode(uuid: result.session.uuid)
-      token = result.session.uuid
+      token = JwtEncoder.encode(uuid: result.session.uuid)
 
       meta = { token: token }
 
