@@ -1,0 +1,28 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  user: <%= ENV.fetch("POSTGRES_USER") %>
+  password: <%= ENV.fetch("POSTGRES_PASSWORD") %>
+  host: <%= ENV.fetch("DATABASE_HOST") %>
+
+development:
+  <<: *default
+  database: development_ads_my-monolit
+
+test:
+  <<: *default
+  database: test_ads_my-monolit
+
+staging:
+  <<: *default
+  pool: 5
+  database: ads_my-monolit
+
+production:
+  adapter: postgresql
+  encoding: unicode
+  database: ads_my-monolit
+  pool: 5
+  host: <%= Rails.application.credentials.dig(:production, :HOST) %>
+  user: <%= Rails.application.credentials.dig(:production, :DATABASE_USER) %>
+  password: <%= Rails.application.credentials.dig(:production, :DATABASE_PASSWORD) %>
