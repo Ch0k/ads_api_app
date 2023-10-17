@@ -11,5 +11,6 @@ module BasicService
 
   def fail!(errors)
     @errors += Array(errors)
+    self
   end
 end

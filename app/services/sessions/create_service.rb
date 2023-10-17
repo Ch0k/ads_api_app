@@ -1,6 +1,7 @@
 module Sessions
   class CreateService
-
+    include BasicService
+    
     attr_reader :session
 
     def initialize(email, password)
