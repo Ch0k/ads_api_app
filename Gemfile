@@ -11,6 +11,7 @@ gem 'bootsnap', '>= 1.4.4', require: false
 gem 'fast_jsonapi'
 gem 'pg'
 gem 'jwt', '~> 2.2.1'
+gem 'kaminari', '~> 1.2.1'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

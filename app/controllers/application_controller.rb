@@ -1,6 +1,4 @@
 class ApplicationController < ActionController::API
-  #include Auth
-
   rescue_from(StandardError) { |e| handle_exception(e) }
 
   def handle_exception(e)

@@ -1,9 +1,17 @@
 class AdsController < ApplicationController
-  
+  include PaginationLinks
+
   AUTH_TOKEN = %r{\ABearer (?<token>.+)\z}
 
-  before_action :auth_user
+  before_action :auth_user, only: :create
   attr_reader :current_user
+
+  def index
+    ads = Ad.order(updated_at: :desc).page(params[:page])
+
+    serializer = AdSerializer.new(ads, links: pagination_links(ads))
+    render json: serializer.serialized_json, status: :ok
+  end
 
   def create
     result = Ads::CreateService.new(
