@@ -13,10 +13,10 @@ class AdsController < ApplicationController
   end
 
   def create
-    result = Ads::CreateService.new(
+    result = Ads::CreateService.call(
       ad: ad_params,
       user: current_user
-    ).call
+    )
 
     if result.success?
       serializer = AdSerializer.new(result.ad)

@@ -1,6 +1,6 @@
 module Users
   class CreateService
-    include BasicService
+    prepend BasicService
 
     attr_reader :user
 
@@ -8,7 +8,6 @@ module Users
       @name = name
       @email = email
       @password = password
-      @errors = []
     end
 
     def call
@@ -19,7 +18,6 @@ module Users
       )
 
       fail!(@user.errors) unless @user.save
-      self
     end
   end
 end

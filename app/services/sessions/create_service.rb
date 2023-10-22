@@ -1,28 +1,18 @@
 module Sessions
   class CreateService
-    include BasicService
+    prepend BasicService
     
     attr_reader :session
 
     def initialize(email, password)
       @password = password
       @user = User.find_by(email: email)
-      @errors = []
     end
 
     def call
       validate
       
       create_session unless failure?
-      self
-    end
-
-    def success?
-      !failure?
-    end
-
-    def failure?
-      @errors.any?
     end
 
     private
@@ -34,10 +24,6 @@ module Sessions
 
     def validate
       return fail_t!(:unauthorized) unless @user&.authenticate(@password)
-    end
-
-    def fail!(errors)
-      @errors += Array(errors)
     end
 
     def fail_t!(key)
