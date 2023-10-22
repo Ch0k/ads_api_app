@@ -3,8 +3,7 @@ class AdsController < ApplicationController
 
   AUTH_TOKEN = %r{\ABearer (?<token>.+)\z}
 
-  before_action :auth_user, only: :create
-  attr_reader :current_user
+  skip_before_action :auth_user, only: :index
 
   def index
     ads = Ad.order(updated_at: :desc).page(params[:page])
@@ -28,33 +27,6 @@ class AdsController < ApplicationController
   end
 
   private
-
-  def auth_user
-    result = Auth::FetchUserService.new(extracted_token['uuid']).call
-
-    if result.success?
-      @current_user = result.user
-    else
-      error_response(result, :forbidden)
-    end
-  end
-
-  def extracted_token
-    JwtEncoder.decode(matched_token)
-  rescue JWT::DecodeError
-    {}
-  end
-
-  def matched_token
-    result = auth_header&.match(AUTH_TOKEN)
-    return if result.blank?
-
-    result[:token]
-  end
-
-  def auth_header
-    request.headers['Authorization']
-  end
 
   def ad_params
     params.require(:ad).permit(:title, :description, :city)

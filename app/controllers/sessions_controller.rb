@@ -1,4 +1,6 @@
 class SessionsController < ApplicationController
+  skip_before_action :auth_user, only: :create
+  
   def create
     result = Sessions::CreateService.new(*session_params).call
     if result.success?
